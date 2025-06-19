@@ -1,9 +1,22 @@
 #include <stdio.h>
 #include <string.h>
 
-void print_arr(int *slice, int len) {
+void print_arr(char *name, int *slice, int len) {
   for (int i = 0; i < len; i++) {
-    printf("index: %d val: %d \n", i, slice[i]);
+    printf("name: %s index: %d val: %d \n", name, i, slice[i]);
+  }
+}
+
+void insert_sort(int *slice, int len) {
+  for (int i = 1; i < len; i++) {
+    int k = slice[i];
+    int j = i - 1;
+    while (j >= 0 && slice[j] > k) {
+      slice[j + 1] = slice[j];
+      j--;
+    }
+
+    slice[j + 1] = k;
   }
 }
 
@@ -60,5 +73,52 @@ void quick_sort(int *slice, int lo, int hi) {
     int p = partition(slice, lo, hi);
     quick_sort(slice, lo, p);
     quick_sort(slice, p + 1, hi);
+  }
+}
+
+void count_sort(int *slice, int *out, int len, int k) {
+  int maxk = k + 1;
+  int zero[maxk];
+  memset(zero, 0, maxk * sizeof(int));
+
+  for (int i = 0; i < len; i++) {
+    zero[slice[i]]++;
+  }
+
+  for (int i = 1; i < maxk; i++) {
+    zero[i] += zero[i - 1];
+  }
+
+  int i = len - 1;
+  while (i >= 0) {
+    out[zero[slice[i]] - 1] = slice[i];
+    i--;
+  }
+}
+
+static void rcount_sort(int *slice, int *out, int len, int exp) {
+  int i, count[10] = {0};
+
+  for (i = 0; i < len; i++) {
+    count[(slice[i] / exp) % 10]++;
+  }
+
+  for (i = 1; i < 10; i++) {
+    count[i] += count[i - 1];
+  }
+
+  for (i = len - 1; i >= 0; i--) {
+    out[count[(slice[i] / exp) % 10] - 1] = slice[i];
+    count[(slice[i] / exp) % 10]--;
+  }
+
+  for (i = 0; i < len; i++) {
+    slice[i] = out[i];
+  }
+}
+
+void radix_sort(int *slice, int *out, int len, int k) {
+  for (int exp = 1; k / exp > 0; exp *= 10) {
+    rcount_sort(slice, out, len, exp);
   }
 }
