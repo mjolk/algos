@@ -19,3 +19,15 @@ add_test(NAME insert_sort COMMAND insert_sort_test)
 add_executable(radix_sort_test radix_sort.c)
 target_link_libraries(radix_sort_test sort)
 add_test(NAME radix_sort COMMAND radix_sort_test)
+
+add_executable(heap_sort_test heap_sort.c)
+target_link_libraries(heap_sort_test sort)
+add_test(NAME heap_sort COMMAND heap_sort_test)
+
+add_executable(bst_test bst.c)
+target_link_libraries(bst_test graph)
+add_test(NAME bst COMMAND bst_test)
+
+add_executable(stack_test stack.c)
+target_link_libraries(stack_test graph)
+add_test(NAME stack COMMAND stack_test)

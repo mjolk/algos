@@ -68,6 +68,7 @@ static int partition(int *slice, int lo, int hi) {
   return j;
 }
 
+// hoare
 void quick_sort(int *slice, int lo, int hi) {
   if (lo >= 0 && hi >= 0 && lo < hi) {
     int p = partition(slice, lo, hi);
@@ -120,5 +121,48 @@ static void rcount_sort(int *slice, int *out, int len, int exp) {
 void radix_sort(int *slice, int *out, int len, int k) {
   for (int exp = 1; k / exp > 0; exp *= 10) {
     rcount_sort(slice, out, len, exp);
+  }
+}
+
+static void swap(int *slice, int index1, int index2) {
+  int tmp = slice[index1];
+  slice[index1] = slice[index2];
+  slice[index2] = tmp;
+}
+
+static void build_max_heap(int *slice, int len) {
+  int j = 0;
+  for (int i = 1; i < len; i++) {
+    if (slice[i] > slice[(i - 1) / 2]) {
+      j = i;
+
+      while (slice[j] > slice[(j - 1) / 2]) {
+        swap(slice, j, (j - 1) / 2);
+        j = (j - 1) / 2;
+      }
+    }
+  }
+}
+
+// iterative -> space O(1)
+void heap_sort(int *slice, int len) {
+  build_max_heap(slice, len);
+
+  for (int i = len - 1; i > 0; i--) {
+    swap(slice, 0, i);
+    int j = 0, index;
+
+    do {
+      index = 2 * j + 1;
+      if (slice[index] < slice[index + 1] && index < i - 1) {
+        index++;
+      }
+
+      if (slice[j] < slice[index] && index < i) {
+        swap(slice, j, index);
+      }
+
+      j = index;
+    } while (index < i);
   }
 }
