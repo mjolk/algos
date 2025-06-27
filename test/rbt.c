@@ -1,4 +1,4 @@
-#include "../src/bst.c"
+#include "../src/rbt.c"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -15,7 +15,7 @@ int main() {
   for (int i = 1; i < 8; i++) {
     struct node *n = malloc(sizeof(struct node));
     n->data = slice[i];
-    bst_insert(root, n);
+    rbt_insert(root, n);
   }
 
   walk_inorder(root);

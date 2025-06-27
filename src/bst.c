@@ -1,5 +1,7 @@
 #include <stdio.h>
 struct node {
+  struct node *parent;
+  int color;  // 0 -> black 1 -> red
   int data;
   struct node *left;
   struct node *right;
@@ -29,7 +31,7 @@ void walk_postorder(struct node *root) {
   printf("node data: %d \n", root->data);
 }
 
-struct node *search(struct node *root, int data) {
+struct node *bst_search(struct node *root, int data) {
   struct node *n = root;
 
   while (n != 0 && n->data != data) {
@@ -44,7 +46,7 @@ struct node *search(struct node *root, int data) {
 }
 
 // we assume there is already a tree
-void insert(struct node *root, struct node *new) {
+void bst_insert(struct node *root, struct node *new) {
   struct node *n = root;
   struct node *parent = 0;
 
@@ -94,7 +96,7 @@ struct node *in_order_successor(struct node *root, struct node *n) {
   return n;
 }
 
-struct node *delete(struct node *root, struct node *del) {
+struct node *bst_delete(struct node *root, struct node *del) {
   struct node *p = 0, *curr = root, *nc = 0;
 
   while (curr && curr->data != del->data) {

@@ -31,3 +31,7 @@ add_test(NAME bst COMMAND bst_test)
 add_executable(stack_test stack.c)
 target_link_libraries(stack_test graph)
 add_test(NAME stack COMMAND stack_test)
+
+add_executable(rbt_test rbt.c)
+target_link_libraries(rbt_test graph)
+add_test(NAME rbt COMMAND rbt_test)
